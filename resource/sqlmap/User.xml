@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="test">
+
+    <select id="queryUserById" parameterType="int" resultType="com.itheima.domain.User">
+        select * from user where id=#{id}
+    </select>
+    
+    <select id="queryUsernameLike" parameterType="String" resultType="com.itheima.domain.User">
+        select * from user where username like #{username}
+    </select>
+
+    <select id="queryUsernameLike02" parameterType="String" resultType="com.itheima.domain.User">
+        select * from user where username like '%${value}%'
+    </select>
+
+    <insert id="saveUser" parameterType="com.itheima.domain.User">
+       <!--//返回添加后数据的id-->
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+            select last_insert_id()
+        </selectKey>
+
+        insert into user(username,birthday,sex,address) values (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.itheima.domain.User">
+        update user set username=#{username} where id=#{id}
+    </update>
+
+    <delete id="deleteByUser" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+
+
+</mapper>
